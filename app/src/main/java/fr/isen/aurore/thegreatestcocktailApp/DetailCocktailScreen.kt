@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,49 +25,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.isen.aurore.thegreatestcocktailApp.ui.theme.TheGreatestCocktailAppTheme
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            TheGreatestCocktailAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    DetailCocktailScreen(
-                  //      name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Composable
-fun MonImage() {
-        Image(
-            painter = painterResource(id = R.drawable.chocolat),
-            contentDescription = "Description de l'image chocolat",
-            modifier = Modifier.size(200.dp)
-        )
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun DetailCocktailScreen(modifier: Modifier) {
     Column(modifier = modifier) {
-        Button({
-            Log.d("button", "click on button")
-        })
-        {
-            Text(
-                text = "Hello $name!",
-                color = Color.Magenta
-            )
-            Text("hi")
-        }
-        Text("hiiiiii")
+        Text("COCKTAIL !!")
+
+        Text("hellooo")
         Row(Modifier) { Text("Row...") }
         Column(Modifier) { Text("Column...") }
         MonImage()
     }
-
 }
+
+
+
+
