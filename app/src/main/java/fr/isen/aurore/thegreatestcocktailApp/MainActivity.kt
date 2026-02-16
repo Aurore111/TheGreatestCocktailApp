@@ -1,6 +1,7 @@
 package fr.isen.aurore.thegreatestcocktailApp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -36,7 +37,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Button ("test")
+    Button ({
+        Log.d("button", "click on button")
+    })
     {
         Text(
             text = "Hello $name!",
