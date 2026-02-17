@@ -15,7 +15,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -51,7 +59,7 @@ class MainActivity : ComponentActivity() {
                         barre()
                     }
                 ) { innerPadding ->
-                    DetailCocktailScreen(
+                    CategoriesScreen(
                   //      name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -73,6 +81,41 @@ fun MonImage() {
            contentScale = ContentScale.Crop
         )
 }
+
+
+@Composable
+fun barre() { //barre du bas icones
+    NavigationBar()
+    {
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Home, contentDescription = null) },
+            label = { Text("A la une") },
+            selected = true,
+            onClick = { }
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.List, contentDescription = null) },
+            label = { Text("Catégories") },
+            selected = false,
+            onClick = { }
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+            label = { Text("Favoris") },
+            selected = false,
+            onClick = { }
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Search, contentDescription = null) },
+            label = { Text("Recherche") },
+            selected = false,
+            onClick = { }
+        )
+    }
+}
+
+
+//-------entrainement-----
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

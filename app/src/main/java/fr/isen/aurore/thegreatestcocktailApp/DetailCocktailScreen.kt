@@ -151,38 +151,6 @@ fun InfoCard(title: String, content: String, icon: androidx.compose.ui.graphics.
     }
 }
 
-
-@Composable
-fun barre() { //barre du bas icones
-    NavigationBar()
-    {
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-            label = { Text("A la une") },
-            selected = true,
-            onClick = { }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.List, contentDescription = null) },
-            label = { Text("Catégories") },
-            selected = false,
-            onClick = { }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
-            label = { Text("Favoris") },
-            selected = false,
-            onClick = { }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Search, contentDescription = null) },
-            label = { Text("Recherche") },
-            selected = false,
-            onClick = { }
-        )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(snackbarHostState: SnackbarHostState) {
