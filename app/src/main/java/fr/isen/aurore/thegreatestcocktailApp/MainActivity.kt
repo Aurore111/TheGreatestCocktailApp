@@ -52,16 +52,17 @@ class MainActivity : ComponentActivity() {
                 val snackbarHostState = remember { SnackbarHostState() }
                 Scaffold(modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(snackbarHostState) },
-                    topBar = {
+                  /*  topBar = {
                         TopAppBar(snackbarHostState = snackbarHostState)
-                    },
+                    },*/
                     bottomBar = {
                         barre()
                     }
                 ) { innerPadding ->
                     CategoriesScreen(
                   //      name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                       // snackbarHostState = snackbarHostState  //A METTRE POUR DetailCocktailScreen
                     )
                 }
             }

@@ -34,6 +34,7 @@ import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -62,54 +63,61 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.launch
 
 @Composable
-fun DetailCocktailScreen(modifier: Modifier) {
-    LazyColumn( //= scroll EN CLIQUANT si dépasse de mon écran
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFE5CC))
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        item {
-            Text(
-                text = "Hot Chocolate !",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF3E2723),
-                textAlign = TextAlign.Center
-            )
-        }
-        item {
-            MonImage()
-        }
-        item {
-            InfoCard(
-                title = "Categories",
-                content = "Hot drinks.",
-                icon = Icons.Default.List
-            )
-        }
-        item {
-            InfoCard(
-                title = "The Type of Glass",
-                content = "Une tasse 30cl.",
-                icon = Icons.Default.Home
-            )
-        }
-        item {
-            InfoCard(
-                title = "Ingredients",
-                content = "• Poudre de Cacao 90%\n• Chocolat 75%\n• Lait\n• Chantilly",
-                icon = Icons.Default.List
-            )
-        }
-        item {
-            InfoCard(
-                title = "The Card of Recipe",
-                content = "Faire fondre le chocolat dans une casserole à feu doux, puis verser le lait progressivement en remuant.",
-                icon = Icons.Default.Search
-            )
+fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostState) {
+    Scaffold(
+        topBar = {
+            TopAppBar(snackbarHostState = snackbarHostState)
+        }) { innerPadding ->
+
+        LazyColumn( //= scroll EN CLIQUANT si dépasse de mon écran
+            modifier = modifier
+                .padding(paddingValues = innerPadding)
+                .fillMaxSize()
+                .background(Color(0xFFFFE5CC))
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                Text(
+                    text = "Hot Chocolate !",
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color(0xFF3E2723),
+                    textAlign = TextAlign.Center
+                )
+            }
+            item {
+                MonImage()
+            }
+            item {
+                InfoCard(
+                    title = "Categories",
+                    content = "Soft drinks.",
+                    icon = Icons.Default.List
+                )
+            }
+            item {
+                InfoCard(
+                    title = "The Type of Glass",
+                    content = "Une tasse 30cl.",
+                    icon = Icons.Default.Home
+                )
+            }
+            item {
+                InfoCard(
+                    title = "Ingredients",
+                    content = "• Poudre de Cacao 90%\n• Chocolat 75%\n• Lait\n• Chantilly",
+                    icon = Icons.Default.List
+                )
+            }
+            item {
+                InfoCard(
+                    title = "The Card of Recipe",
+                    content = "Faire fondre le chocolat dans une casserole à feu doux, puis verser le lait progressivement en remuant.",
+                    icon = Icons.Default.Search
+                )
+            }
         }
     }
 }

@@ -1,18 +1,190 @@
 package fr.isen.aurore.thegreatestcocktailApp
 
+import android.content.Context
+import android.content.Intent
+import android.icu.text.CaseMap
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
+
+
 
 @Composable
-fun CategoriesScreen()
+fun CategoriesScreen(modifier: Modifier)
 {
-   // LazyVerticalGrid()
-    Column(Modifier)
-    {
-        Text("Beer, cocktail, cocoa, coffee, shot, soft drink")
+    val categories = listOf(
+        "Beer",
+        "Cocktail",
+        "Cocoa",
+        "Coffee",
+        "Shot",
+        "Soft Drink"
+    )
+    LazyVerticalGrid( modifier = modifier
+        .fillMaxSize()
+        .background(Color(0xFFFFF4E6))
+        .padding(16.dp),
+        //  .padding(paddingValues = innerPadding), //obliger pour la top barre
+        columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(categories) { category ->
+            val context : Context = LocalContext.current
+            Button (onClick = {
+                val intent = Intent(context, DrinkActivity::class.java)
+                intent.putExtra("category", category)
+                context.startActivity(intent)
+            },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(size = 25.dp),
+                colors = ButtonColors(
+                    containerColor = Color.White.copy(alpha = 0.3f),
+                    contentColor = Color.White,
+                    disabledContentColor = Color.Unspecified,
+                    disabledContainerColor = Color.Unspecified
+                )
+            )
+            {
+                Text(
+                    text = category,
+                    modifier = androidx.compose.ui.Modifier.padding(12.dp),
+                    color = Color(0xFF5D4037),
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            }
+        }
     }
 }
+
+
+
+
+
+//A SUPRIMER CAR DEJA DRINK SCREEN
+/*
+@Composable
+fun CategoriesScreen(modifier: Modifier = Modifier) {
+    val showListDrink = remember { mutableStateOf(false) }
+    val selectedCategory = remember { mutableStateOf("") }
+
+    if (showListDrink.value) {
+        ListDrink(
+            modifier = modifier,
+            category = selectedCategory.value
+        )
+    } else {
+        Scaffold(
+            topBar = {
+                TopBar()
+            })
+        { innerPadding ->
+            val categories = listOf(
+                "mauvais fichier",
+                "Cocktail",
+                "Cocoa",
+                "Coffee",
+                "Shot",
+                "Soft Drink"
+            )
+
+            LazyVerticalGrid(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFFFF4E6))
+                    .padding(16.dp)
+                    .padding(paddingValues = innerPadding), //obliger pour la top barre
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(categories) { category ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .clickable
+                            {
+                                selectedCategory.value = category
+                                showListDrink.value = true
+                            },
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(0xFFFFE5CC)
+                        )
+                    )
+                    {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = category,
+                                modifier = Modifier.padding(12.dp),
+                                color = Color(0xFF5D4037),
+                                fontSize = 24.sp,
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.ExtraBold
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar() {
+CenterAlignedTopAppBar(
+    title =
+        {
+        Text("Categories Drinks")
+    },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = Color.White
+            )
+    )
+}
+*/
