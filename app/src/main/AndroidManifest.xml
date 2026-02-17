@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheGreatestCocktailApp">
         <activity
+            android:name=".RecetteActivity"
+            android:exported="false"
+            android:label="@string/title_activity_recette"
+            android:theme="@style/Theme.TheGreatestCocktailApp" />
+        <activity
             android:name=".DrinkActivity"
             android:exported="false"
             android:label="@string/title_activity_drink"
