@@ -61,7 +61,7 @@ fun CategoriesScreen(modifier: Modifier)
     )
     LazyVerticalGrid( modifier = modifier
         .fillMaxSize()
-        .background(Color(0xFFFFF4E6))
+        .background(Color(0xFFFFE5CC))
         .padding(16.dp),
         //  .padding(paddingValues = innerPadding), //obliger pour la top barre
         columns = GridCells.Fixed(2),
@@ -78,7 +78,7 @@ fun CategoriesScreen(modifier: Modifier)
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(size = 25.dp),
                 colors = ButtonColors(
-                    containerColor = Color.White.copy(alpha = 0.3f),
+                    containerColor = Color.White.copy(alpha = 0.7f),
                     contentColor = Color.White,
                     disabledContentColor = Color.Unspecified,
                     disabledContainerColor = Color.Unspecified
