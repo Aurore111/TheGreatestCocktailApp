@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -41,6 +42,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,12 +60,58 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.isen.aurore.thegreatestcocktailApp.ui.theme.TheGreatestCocktailAppTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import fr.isen.aurore.thegreatestcocktailApp.`package`.Drinks
+import fr.isen.aurore.thegreatestcocktailApp.`package`.DrinksModel
+import fr.isen.aurore.thegreatestcocktailApp.`package`.NetworkManager
 import kotlinx.coroutines.launch
+import retrofit2.Callback
+import retrofit2.Call
+import retrofit2.Response
 
+data class Ingredient(
+    val name: String,
+    val measure: String
+)
 @Composable
 fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostState) {
+    // pas fait pareil si probleme que cours---------------------------------------
+
+    val drink : MutableState<DrinksModel> = remember {mutableStateOf(DrinksModel())}
+    val ingredients = listOf(
+        Pair(drink.value.ingredient1, drink.value.measure1),
+        Pair(drink.value.ingredient2, drink.value.measure2),
+        Pair(drink.value.ingredient3, drink.value.measure3),
+        Pair(drink.value.ingredient4, drink.value.measure4),
+        Pair(drink.value.ingredient5, drink.value.measure5),
+        Pair(drink.value.ingredient6, drink.value.measure6),
+        Pair(drink.value.ingredient7, drink.value.measure7),
+        Pair(drink.value.ingredient8, drink.value.measure8),
+        Pair(drink.value.ingredient9, drink.value.measure9),
+        Pair(drink.value.ingredient10, drink.value.measure10),
+        Pair(drink.value.ingredient11, drink.value.measure11),
+        Pair(drink.value.ingredient12, drink.value.measure12),
+        Pair(drink.value.ingredient13, drink.value.measure13),
+        Pair(drink.value.ingredient14, drink.value.measure14),
+        Pair(drink.value.ingredient15, drink.value.measure15),
+    ).filter { (ingredient, _) -> ingredient?.isNotBlank() == true } // garde seulement les non-vides
+
+    LaunchedEffect(Unit) {
+        val call: Call<Drinks> = NetworkManager.api.getRandomeCocktail()
+        call.enqueue(object : Callback<Drinks> {
+            override fun onResponse(p0: Call<Drinks?>, p1: Response<Drinks?>) {
+                drink.value = p1.body()?.drinks?.first() ?: DrinksModel()
+            }
+
+            override fun onFailure(p0: Call<Drinks?>, p1: Throwable) {
+                Log.e("error", p1.message.toString())
+            }
+        })
+    }
+
+
     Scaffold(
         topBar = {
             TopAppBar(snackbarHostState = snackbarHostState)
@@ -80,7 +128,7 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
         ) {
             item {
                 Text(
-                    text = "Hot Chocolate !",
+                    text = drink.value.name,  //on appel info de drinksModel donc bien mettre 'name'-----------------------------
                     fontSize = 32.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF3E2723),
@@ -91,31 +139,28 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
                 MonImage()
             }
             item {
-                InfoCard(
-                    title = "Categories",
-                    content = "Soft drinks.",
-                    icon = Icons.Default.List
+                Text(
+                    text = drink.value.category,
+            )
+            }
+            item {
+                Text(
+                    text = drink.value.glass,
                 )
             }
             item {
-                InfoCard(
-                    title = "The Type of Glass",
-                    content = "Une tasse 30cl.",
-                    icon = Icons.Default.Home
-                )
+                  ingredients.forEach { (ingredient, measure) ->
+                       Row(Modifier.wrapContentHeight()) {
+                           Text(text = ingredient ?: "", color = Color.Black)
+                           Spacer(Modifier.weight(weight = 1f))
+                           Text(text = measure ?: "", color = Color.Black)
+                   }
+               }
             }
             item {
-                InfoCard(
-                    title = "Ingredients",
-                    content = "• Poudre de Cacao 90%\n• Chocolat 75%\n• Lait\n• Chantilly",
-                    icon = Icons.Default.List
-                )
-            }
-            item {
-                InfoCard(
-                    title = "The Card of Recipe",
-                    content = "Faire fondre le chocolat dans une casserole à feu doux, puis verser le lait progressivement en remuant.",
-                    icon = Icons.Default.Search
+
+                Text(
+                    text = drink.value.instruction   //-------------mettre d autre infos , voir fichier DrinkModel.kt
                 )
             }
         }
