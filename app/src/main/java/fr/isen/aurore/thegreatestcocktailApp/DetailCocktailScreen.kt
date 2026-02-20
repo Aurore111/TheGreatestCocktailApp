@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -63,6 +64,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 import fr.isen.aurore.thegreatestcocktailApp.`package`.Drinks
 import fr.isen.aurore.thegreatestcocktailApp.`package`.DrinksModel
 import fr.isen.aurore.thegreatestcocktailApp.`package`.NetworkManager
@@ -76,7 +80,7 @@ data class Ingredient(
     val measure: String
 )
 @Composable
-fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostState) {
+fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostState, drinkId: String = "") {
     // pas fait pareil si probleme que cours---------------------------------------
 
     val drink : MutableState<DrinksModel> = remember {mutableStateOf(DrinksModel())}
@@ -98,13 +102,27 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
         Pair(drink.value.ingredient15, drink.value.measure15),
     ).filter { (ingredient, _) -> ingredient?.isNotBlank() == true } // garde seulement les non-vides
 
-    LaunchedEffect(Unit) {
+    /*LaunchedEffect(Unit) {
         val call: Call<Drinks> = NetworkManager.api.getRandomeCocktail()
         call.enqueue(object : Callback<Drinks> {
             override fun onResponse(p0: Call<Drinks?>, p1: Response<Drinks?>) {
                 drink.value = p1.body()?.drinks?.first() ?: DrinksModel()
             }
-
+            override fun onFailure(p0: Call<Drinks?>, p1: Throwable) {
+                Log.e("error", p1.message.toString())
+            }
+        })
+    }*/
+    LaunchedEffect(Unit) {
+        val call: Call<Drinks> = if (drinkId.isNotEmpty()) {
+            NetworkManager.api.getDrinkById(drinkId)  //  vient de DrinkScreen
+        } else {
+            NetworkManager.api.getRandomeCocktail()   //  accès direct à la page
+        }
+        call.enqueue(object : Callback<Drinks> {
+            override fun onResponse(p0: Call<Drinks?>, p1: Response<Drinks?>) {
+                drink.value = p1.body()?.drinks?.first() ?: DrinksModel()
+            }
             override fun onFailure(p0: Call<Drinks?>, p1: Throwable) {
                 Log.e("error", p1.message.toString())
             }
@@ -136,12 +154,24 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
                 )
             }
             item {
-                MonImage()
+                AsyncImage(
+                    model = drink.value.imageURL,
+                    contentDescription = drink.value.name,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(180.dp),
+                    contentScale = ContentScale.Crop
+                )
             }
             item {
                 Text(
                     text = drink.value.category,
             )
+            }
+            item {
+                Text(
+                    text = drink.value.alcoholic,
+                )
             }
             item {
                 Text(

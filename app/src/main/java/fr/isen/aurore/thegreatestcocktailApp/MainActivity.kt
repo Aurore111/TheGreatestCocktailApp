@@ -126,18 +126,6 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Composable
-fun MonImage() {
-       Image(
-            painter = painterResource(id = R.drawable.chocolat),
-            contentDescription = "Description de l'image chocolat",
-            modifier = Modifier
-                .clip(CircleShape)
-                //.fillMaxWidth()
-                .size(180.dp),
-           contentScale = ContentScale.Crop
-        )
-}
 
 
 
@@ -164,7 +152,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         Text("hiiiiii")
         Row(Modifier) { Text("Row...") }
         Column(Modifier) { Text("Column...") }
-        MonImage()
     }
 
 }

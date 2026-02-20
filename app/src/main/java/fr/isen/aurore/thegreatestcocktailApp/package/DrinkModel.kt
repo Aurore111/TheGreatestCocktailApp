@@ -13,6 +13,7 @@ class DrinksModel(
     @SerializedName(value = "strCategory") val category: String = "",
     @SerializedName(value = "strAlcoholic") val alcoholic: String = "",
     @SerializedName(value = "strGlass") val glass: String = "",
+    @SerializedName(value = "strDrinkThumb") val imageURL: String = "",
     @SerializedName(value = "strInstructions") val instruction: String = "",
     @SerializedName(value = "strIngredient1") val ingredient1: String? = null,
     @SerializedName(value = "strIngredient2") val ingredient2: String? = null,
@@ -47,3 +48,4 @@ class DrinksModel(
 //voir note et ecrire tout ce qui est utile (copier coller et modifier la ligne du dessus)
 
 ):Serializable
+

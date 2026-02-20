@@ -3,6 +3,7 @@ package fr.isen.aurore.thegreatestcocktailApp
 import android.content.Context
 import android.content.Intent
 import android.icu.text.CaseMap
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +33,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,21 +47,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fr.isen.aurore.thegreatestcocktailApp.`package`.Drinks
+import fr.isen.aurore.thegreatestcocktailApp.`package`.DrinksModel
+import fr.isen.aurore.thegreatestcocktailApp.`package`.NetworkManager
 import kotlinx.coroutines.launch
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @Composable
 fun CategoriesScreen(modifier: Modifier)
 {
-    val categories = listOf(
-        "Beer",
-        "Cocktail",
-        "Cocoa",
-        "Coffee",
-        "Shot",
-        "Soft Drink"
-    )
+    val categories : MutableState<List<String>> = remember { mutableStateOf(listOf()) }
+    LaunchedEffect(Unit) {
+        val call: Call<Drinks> = NetworkManager.api.getListCategory()
+        call.enqueue(object : Callback<Drinks> {
+            override fun onResponse(p0: Call<Drinks?>, p1: Response<Drinks?>) {
+                categories.value = p1.body()?.drinks
+                    ?.map { it.category }
+                    ?.filter { it.isNotBlank() }
+                    ?: listOf()
+            }
+            override fun onFailure(p0: Call<Drinks?>, p1: Throwable) {
+                Log.e("error", p1.message.toString())
+            }
+        })
+    }
+
+
     LazyVerticalGrid( modifier = modifier
         .fillMaxSize()
         .background(Color(0xFFFFE5CC))
@@ -68,14 +85,16 @@ fun CategoriesScreen(modifier: Modifier)
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(categories) { category ->
+        items(categories.value) { category ->
             val context : Context = LocalContext.current
             Button (onClick = {
                 val intent = Intent(context, DrinkActivity::class.java)
                 intent.putExtra("category", category)
                 context.startActivity(intent)
             },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f),
                 shape = RoundedCornerShape(size = 25.dp),
                 colors = ButtonColors(
                     containerColor = Color.White.copy(alpha = 0.7f),
@@ -89,7 +108,7 @@ fun CategoriesScreen(modifier: Modifier)
                     text = category,
                     modifier = androidx.compose.ui.Modifier.padding(12.dp),
                     color = Color(0xFF5D4037),
-                    fontSize = 24.sp,
+                    fontSize = 22.sp,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.ExtraBold
                 )
