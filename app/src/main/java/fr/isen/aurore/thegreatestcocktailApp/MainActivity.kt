@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val startNavigationItem = NavigationItem.Home
                 val currentNavigationItem : MutableState<NavigationItem> = remember { mutableStateOf( value = startNavigationItem) }
+              //  val favoriteIds = remember { mutableStateListOf<String>() }
                 Scaffold(modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                   /*  topBar = { //c'etait pour avoir une barre blanche en haut
@@ -114,7 +115,7 @@ class MainActivity : ComponentActivity() {
                                 when (navigationItem){
                                     NavigationItem.Home -> DetailCocktailScreen(Modifier.padding( paddingValues = innerPadding), snackbarHostState)
                                     NavigationItem.List -> CategoriesScreen(Modifier.padding( paddingValues = innerPadding))
-                                    NavigationItem.Fav -> {} //a completer avec la page de favoris
+                                    NavigationItem.Fav -> LikeScreen(Modifier.padding( paddingValues = innerPadding)) //a completer avec la page de favoris
                                 }
                             }
                         }
@@ -129,10 +130,7 @@ class MainActivity : ComponentActivity() {
 
 
 
-
-
-
-
+/*
 
 //----------------entrainement-------------
 
@@ -154,4 +152,4 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         Column(Modifier) { Text("Column...") }
     }
 
-}
+}*/

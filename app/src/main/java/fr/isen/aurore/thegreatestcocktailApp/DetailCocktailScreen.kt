@@ -66,6 +66,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import coil3.compose.AsyncImage
 import fr.isen.aurore.thegreatestcocktailApp.`package`.Drinks
 import fr.isen.aurore.thegreatestcocktailApp.`package`.DrinksModel
@@ -132,7 +133,7 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
 
     Scaffold(
         topBar = {
-            TopAppBar(snackbarHostState = snackbarHostState)
+            TopAppBar(snackbarHostState = snackbarHostState, drinkId)//mettre drinId-------
         }) { innerPadding ->
 
         LazyColumn( //= scroll EN CLIQUANT si dépasse de mon écran
@@ -236,7 +237,7 @@ fun InfoCard(title: String, content: String, icon: androidx.compose.ui.graphics.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(snackbarHostState: SnackbarHostState) {
+fun TopAppBar(snackbarHostState: SnackbarHostState, drinkId: String? = null) {
     CenterAlignedTopAppBar(
         title = {
             Text("Like it !")
@@ -244,10 +245,14 @@ fun TopAppBar(snackbarHostState: SnackbarHostState) {
         actions = {
             val added = "Ajouté aux favoris"
             val removed = "Retiré des favoris"
-//            val context = LocalContext.current
 
             val snackbarScope = rememberCoroutineScope ()
-            val isFav = remember { mutableStateOf(false) }
+
+            val context = LocalContext.current
+            val sharePreferences = SharePreferencesHelper(context)
+            val drinkList = sharePreferences.getFavoritesList()
+            val isFav : MutableState<Boolean> = remember { mutableStateOf(getFavoriteStatusForId(drinkId, drinkList)) }
+
             IconToggleButton(
                 isFav.value,
                 onCheckedChange = {
@@ -261,6 +266,13 @@ fun TopAppBar(snackbarHostState: SnackbarHostState) {
                     snackbarScope.launch {
                         snackbarHostState.showSnackbar(if (isFav.value) added else removed)
                     }
+                    if (drinkId != null){
+                        updateFavoriteList(
+                            drinkId.toString(),
+                            isFav.value,
+                            sharePreferences,
+                            drinkList)
+                    }
                 }
             ) {
                 Icon(
@@ -272,5 +284,24 @@ fun TopAppBar(snackbarHostState: SnackbarHostState) {
         }
     )
 }
+fun getFavoriteStatusForId(drinkId: String?, list: ArrayList<String>): Boolean {
+    for (id in list){
+        if (drinkId == id){
+            return true
+        }
+    }
+    return false
+}
 
-
+fun updateFavoriteList(drinkId: String,
+                       shouldBeAdded : Boolean,
+                       sharedPreferencesHelper: SharePreferencesHelper,
+                       list : ArrayList<String>)
+{
+    if (shouldBeAdded){
+        list.add(drinkId)
+    }else{
+        list.remove(drinkId)
+    }
+    sharedPreferencesHelper.saveFavoriteList(list)
+}
