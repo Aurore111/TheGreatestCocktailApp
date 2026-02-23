@@ -55,11 +55,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoriesScreen(modifier: Modifier)
-{
-    val categories : MutableState<List<String>> = remember { mutableStateOf(listOf()) }
+fun CategoriesScreen(modifier: Modifier) {
+    val categories: MutableState<List<String>> = remember { mutableStateOf(listOf()) }
     LaunchedEffect(Unit) {
         val call: Call<Drinks> = NetworkManager.api.getListCategory()
         call.enqueue(object : Callback<Drinks> {
@@ -69,49 +68,66 @@ fun CategoriesScreen(modifier: Modifier)
                     ?.filter { it.isNotBlank() }
                     ?: listOf()
             }
+
             override fun onFailure(p0: Call<Drinks?>, p1: Throwable) {
                 Log.e("error", p1.message.toString())
             }
         })
     }
 
-
-    LazyVerticalGrid( modifier = modifier
-        .fillMaxSize()
-        .background(Color(0xFFFFE5CC))
-        .padding(16.dp),
-        //  .padding(paddingValues = innerPadding), //obliger pour la top barre
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        items(categories.value) { category ->
-            val context : Context = LocalContext.current
-            Button (onClick = {
-                val intent = Intent(context, DrinkActivity::class.java)
-                intent.putExtra("category", category)
-                context.startActivity(intent)
-            },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-                shape = RoundedCornerShape(size = 25.dp),
-                colors = ButtonColors(
-                    containerColor = Color.White.copy(alpha = 0.7f),
-                    contentColor = Color.White,
-                    disabledContentColor = Color.Unspecified,
-                    disabledContainerColor = Color.Unspecified
-                )
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Catégories",
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color(0xFF3E2723)
+                    )
+                }
             )
-            {
-                Text(
-                    text = category,
-                    modifier = androidx.compose.ui.Modifier.padding(12.dp),
-                    color = Color(0xFF5D4037),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.ExtraBold
+        }
+    ) { innerPadding ->
+        LazyVerticalGrid(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color(0xFFFFE5CC))
+                .padding(innerPadding)
+                .padding(16.dp),
+            //  .padding(paddingValues = innerPadding), //obliger pour la top barre
+            columns = GridCells.Fixed(2),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(categories.value) { category ->
+                val context: Context = LocalContext.current
+                Button(
+                    onClick = {
+                        val intent = Intent(context, DrinkActivity::class.java)
+                        intent.putExtra("category", category)
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f),
+                    shape = RoundedCornerShape(size = 25.dp),
+                    colors = ButtonColors(
+                        containerColor = Color.White.copy(alpha = 0.7f),
+                        contentColor = Color.White,
+                        disabledContentColor = Color.Unspecified,
+                        disabledContainerColor = Color.Unspecified
+                    )
                 )
+                {
+                    Text(
+                        text = category,
+                        modifier = androidx.compose.ui.Modifier.padding(12.dp),
+                        color = Color(0xFF5D4037),
+                        fontSize = 22.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
             }
         }
     }
