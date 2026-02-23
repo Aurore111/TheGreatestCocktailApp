@@ -24,13 +24,16 @@ class RecetteActivity : ComponentActivity() {
             TheGreatestCocktailAppTheme {
                 val snackbarHostState = remember { SnackbarHostState() }
                 val drinkId = intent.getStringExtra("drinkId") ?: ""
+                val fromCategory = intent.getBooleanExtra("fromCategory", false)
                 Scaffold(modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(snackbarHostState) }
                 )
                 { innerPadding ->
-                    DetailCocktailScreen(modifier = Modifier.padding(paddingValues = innerPadding),
+                    DetailCocktailScreen(modifier = Modifier.padding( innerPadding),
                         snackbarHostState = snackbarHostState,
-                        drinkId = drinkId)
+                        drinkId = drinkId,
+                        fromCategory = fromCategory
+                        )
                 }
             }
         }

@@ -125,31 +125,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-
-
-
-/*
-
-//----------------entrainement-------------
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Button({
-            Log.d("button", "click on button")
-        })
-        {
-            Text(
-                text = "Hello $name!",
-                color = Color.Magenta
-            )
-            Text("hi")
-        }
-        Text("hiiiiii")
-        Row(Modifier) { Text("Row...") }
-        Column(Modifier) { Text("Column...") }
-    }
-
-}*/

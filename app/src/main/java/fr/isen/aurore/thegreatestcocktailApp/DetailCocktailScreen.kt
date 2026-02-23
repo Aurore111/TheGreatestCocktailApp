@@ -1,5 +1,6 @@
 package fr.isen.aurore.thegreatestcocktailApp
 
+import android.app.Activity
 import android.appwidget.AppWidgetHost
 import android.net.http.X509TrustManagerExtensions
 import android.os.Bundle
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
@@ -81,7 +83,9 @@ data class Ingredient(
     val measure: String
 )
 @Composable
-fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostState, drinkId: String = "") {
+fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostState, drinkId: String = "", fromCategory: Boolean = false)
+//fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostState, drinkId: String = "")
+{
     // pas fait pareil si probleme que cours---------------------------------------
 
     val drink : MutableState<DrinksModel> = remember {mutableStateOf(DrinksModel())}
@@ -133,7 +137,7 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
 
     Scaffold(
         topBar = {
-            TopAppBar(snackbarHostState = snackbarHostState, drink.value.id)//mettre: ...State ,drinId)-------
+            TopAppBar(snackbarHostState = snackbarHostState, drink.value.id, fromCategory)//mettre: ...State ,drinId)-------
         }) { innerPadding ->
 
         LazyColumn( //= scroll EN CLIQUANT si dépasse de mon écran
@@ -237,10 +241,22 @@ fun InfoCard(title: String, content: String, icon: androidx.compose.ui.graphics.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(snackbarHostState: SnackbarHostState, drinkId: String? = null) {
+fun TopAppBar(snackbarHostState: SnackbarHostState, drinkId: String? = null, fromCategory: Boolean = false) {
     CenterAlignedTopAppBar(
         title = {
             Text("Like it !")
+        },
+        navigationIcon = { //fleche retour
+            if (fromCategory) {
+                val context = LocalContext.current
+                IconButton(onClick = { (context as Activity).finish() }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Retour",
+                        tint = Color(0xFF3E2723)
+                    )
+                }
+            }
         },
         actions = {
             val added = "Ajouté aux favoris"

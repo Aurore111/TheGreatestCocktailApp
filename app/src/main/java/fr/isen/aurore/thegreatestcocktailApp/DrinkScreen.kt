@@ -1,5 +1,6 @@
 package fr.isen.aurore.thegreatestcocktailApp
 
+import android.app.Activity
 import android.content.Intent
 import android.icu.lang.UCharacter
 import android.util.Log
@@ -15,12 +16,16 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -74,6 +79,16 @@ fun DrinkScreen(modifier: Modifier, category: String) {
                         fontWeight = FontWeight.ExtraBold,
                         color = Color(0xFF3E2723)
                     )
+                },
+                navigationIcon = {
+                    val context = LocalContext.current
+                    IconButton(onClick = { (context as Activity).finish() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Retour",
+                            tint = Color(0xFF3E2723)
+                        )
+                    }
                 }
             )
         }
@@ -94,7 +109,8 @@ fun DrinkScreen(modifier: Modifier, category: String) {
                 Button(
                     onClick = {
                         val intent = Intent(context, RecetteActivity::class.java)
-                        intent.putExtra("drinkId", drink.id)
+                        //intent.putExtra("drinkId", drink.id)
+                        intent.putExtra("fromCategory", true)
                         context.startActivity(intent)
                     },
                     modifier = Modifier
