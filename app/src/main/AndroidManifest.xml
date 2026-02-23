@@ -14,11 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheGreatestCocktailApp">
         <activity
-            android:name=".LikeActivity"
-            android:exported="false"
-            android:label="@string/title_activity_like"
-            android:theme="@style/Theme.TheGreatestCocktailApp" />
-        <activity
             android:name=".RecetteActivity"
             android:exported="false"
             android:label="@string/title_activity_recette"

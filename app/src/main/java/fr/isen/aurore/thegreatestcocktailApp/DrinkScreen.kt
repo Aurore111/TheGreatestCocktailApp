@@ -109,7 +109,7 @@ fun DrinkScreen(modifier: Modifier, category: String) {
                 Button(
                     onClick = {
                         val intent = Intent(context, RecetteActivity::class.java)
-                        //intent.putExtra("drinkId", drink.id)
+                        intent.putExtra("drinkId", drink.id) //relie le nom de la boisson dans "categories" à sa description
                         intent.putExtra("fromCategory", true)
                         context.startActivity(intent)
                     },
