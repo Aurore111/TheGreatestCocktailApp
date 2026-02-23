@@ -133,7 +133,7 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
 
     Scaffold(
         topBar = {
-            TopAppBar(snackbarHostState = snackbarHostState, drinkId)//mettre drinId-------
+            TopAppBar(snackbarHostState = snackbarHostState, drink.value.id)//mettre: ...State ,drinId)-------
         }) { innerPadding ->
 
         LazyColumn( //= scroll EN CLIQUANT si dépasse de mon écran
@@ -251,7 +251,11 @@ fun TopAppBar(snackbarHostState: SnackbarHostState, drinkId: String? = null) {
             val context = LocalContext.current
             val sharePreferences = SharePreferencesHelper(context)
             val drinkList = sharePreferences.getFavoritesList()
-            val isFav : MutableState<Boolean> = remember { mutableStateOf(getFavoriteStatusForId(drinkId, drinkList)) }
+           // val isFav : MutableState<Boolean> = remember { mutableStateOf(getFavoriteStatusForId(drinkId, drinkList)) }
+            val isFav : MutableState<Boolean> = remember { mutableStateOf(false) }
+            LaunchedEffect(drinkId) {
+                isFav.value = getFavoriteStatusForId(drinkId, drinkList)
+            }
 
             IconToggleButton(
                 isFav.value,
