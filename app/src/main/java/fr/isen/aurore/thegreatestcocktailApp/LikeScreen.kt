@@ -106,6 +106,7 @@ fun LikeScreen(modifier: Modifier)
             Button (onClick = {
                 val intent = Intent(context, RecetteActivity::class.java)
                 intent.putExtra("drinkId", drink.id)
+                intent.putExtra("fromCategory", true) //faire retour sur la page precedente avec la fleche
                 context.startActivity(intent)
             },
                 modifier = Modifier

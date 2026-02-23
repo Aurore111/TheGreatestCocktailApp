@@ -256,6 +256,14 @@ fun TopAppBar(snackbarHostState: SnackbarHostState, drinkId: String? = null, fro
                         tint = Color(0xFF3E2723)
                     )
                 }
+            }else {    // logo à gauche quand pas de flèche
+                Image(
+                    painter = painterResource(id = R.drawable.logo_pied), //logo avec pied du verre en gras
+                    contentDescription = "Logo",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .padding(start = 4.dp)
+                )
             }
         },
         actions = {
