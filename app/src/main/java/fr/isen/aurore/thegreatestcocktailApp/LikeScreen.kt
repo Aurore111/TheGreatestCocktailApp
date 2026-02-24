@@ -3,6 +3,7 @@ package fr.isen.aurore.thegreatestcocktailApp
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,10 +47,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -99,14 +102,27 @@ fun LikeScreen(modifier: Modifier)
                 .background(Color(0xFFFFE5CC)),
             contentAlignment = Alignment.Center // centre le texte horizontalement et verticalement de ma page
         ) {
-            Text(
-                text = "Aucun favoris",
-                // modifier = androidx.compose.ui.Modifier.padding(12.dp),
-                color = Color(0xFF5D4037),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.ExtraBold
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Aucun favoris",
+                    // modifier = androidx.compose.ui.Modifier.padding(12.dp),
+                    color = Color(0xFF5D4037),
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.ExtraBold,
+                    modifier = Modifier.padding(bottom = 16.dp) // Espace entre le texte et le logo
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.logo_cocktail),
+                    contentDescription = "Logo",
+                    modifier = Modifier
+                        .size(250.dp) // taille logo
+                       // .align(Alignment.Center) // centre au milieu d ela page
+                        .clip(CircleShape), //pour enlever le blanc autour de mon image
+                )
+            }
         }
     }else {
         LazyVerticalGrid(
@@ -151,6 +167,7 @@ fun LikeScreen(modifier: Modifier)
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.ExtraBold
                     )
+
                 }
             }
         }
