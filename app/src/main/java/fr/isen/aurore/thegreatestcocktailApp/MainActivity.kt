@@ -63,7 +63,9 @@ enum class NavigationItem(
 ){
   Home(title = "A la une", Icons.Default.Home, route = "Home"),
   List(title = "Catégories", Icons.Default.Menu, route = "List"),
-  Fav(title = "Favoris", Icons.Default.Favorite, route = "Fav")
+  Fav(title = "Favoris", Icons.Default.Favorite, route = "Fav"),
+  Search(title = "Rechercher", Icons.Default.Search, route = "Search")
+
 }
 
 class MainActivity : ComponentActivity() {
@@ -115,7 +117,8 @@ class MainActivity : ComponentActivity() {
                                 when (navigationItem){
                                     NavigationItem.Home -> DetailCocktailScreen(Modifier.padding( paddingValues = innerPadding), snackbarHostState)
                                     NavigationItem.List -> CategoriesScreen(Modifier.padding( paddingValues = innerPadding))
-                                    NavigationItem.Fav -> LikeScreen(Modifier.padding( paddingValues = innerPadding)) //a completer avec la page de favoris
+                                    NavigationItem.Fav -> LikeScreen(Modifier.padding( paddingValues = innerPadding)) //page favoris
+                                    NavigationItem.Search -> SearchScreen(Modifier.padding( innerPadding)) // page rechercher
                                 }
                             }
                         }

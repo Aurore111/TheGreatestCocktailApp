@@ -91,50 +91,70 @@ fun LikeScreen(modifier: Modifier)
         }
     }
 
-
-    LazyVerticalGrid( modifier = modifier
-        .fillMaxSize()
-        .background(Color(0xFFFFE5CC))
-        .padding(16.dp),
-        //  .padding(paddingValues = innerPadding), //obliger pour la top barre
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)//,
-    ) {
-        items(drinks.value) { drink ->
-            val context = LocalContext.current
-            Button (onClick = {
-                val intent = Intent(context, RecetteActivity::class.java)
-                intent.putExtra("drinkId", drink.id)
-                intent.putExtra("fromCategory", true) //faire retour sur la page precedente avec la fleche
-                context.startActivity(intent)
-            },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-                shape = RoundedCornerShape(size = 25.dp),
-                colors = ButtonColors(
-                    containerColor = Color.White.copy(alpha = 0.7f),
-                    contentColor = Color.White,
-                    disabledContentColor = Color.Unspecified,
-                    disabledContainerColor = Color.Unspecified
-                )
+    if (favList.isEmpty()) //affiche un message si la page n'a pas de favoris
+    {
+        Box ( //box pour avoir le fond de couleur et la mise en page quand il n'y a pas de like
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color(0xFFFFE5CC)),
+            contentAlignment = Alignment.Center // centre le texte horizontalement et verticalement de ma page
+        ) {
+            Text(
+                text = "Aucun favoris",
+                // modifier = androidx.compose.ui.Modifier.padding(12.dp),
+                color = Color(0xFF5D4037),
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.ExtraBold
             )
-            {
-                Text(
-                    text = drink.name,//drink.name,
-                    modifier = androidx.compose.ui.Modifier.padding(12.dp),
-                    color = Color(0xFF5D4037),
-                    fontSize = 24.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.ExtraBold
+        }
+    }else {
+        LazyVerticalGrid(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color(0xFFFFE5CC))
+                .padding(16.dp),
+            //  .padding(paddingValues = innerPadding), //obliger pour la top barre
+            columns = GridCells.Fixed(2),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)//,
+        ) {
+            items(drinks.value) { drink ->
+                val context = LocalContext.current
+                Button(
+                    onClick = {
+                        val intent = Intent(context, RecetteActivity::class.java)
+                        intent.putExtra("drinkId", drink.id)
+                        intent.putExtra(
+                            "fromCategory",
+                            true
+                        ) //faire retour sur la page precedente avec la fleche
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f),
+                    shape = RoundedCornerShape(size = 25.dp),
+                    colors = ButtonColors(
+                        containerColor = Color.White.copy(alpha = 0.7f),
+                        contentColor = Color.White,
+                        disabledContentColor = Color.Unspecified,
+                        disabledContainerColor = Color.Unspecified
+                    )
                 )
+                {
+                    Text(
+                        text = drink.name,//drink.name,
+                        modifier = androidx.compose.ui.Modifier.padding(12.dp),
+                        color = Color(0xFF5D4037),
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
             }
         }
     }
 }
-
-
-
 
 
