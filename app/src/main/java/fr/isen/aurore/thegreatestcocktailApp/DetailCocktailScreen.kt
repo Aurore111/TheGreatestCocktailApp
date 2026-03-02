@@ -19,15 +19,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -169,72 +172,76 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
                 )
             }
             item {
-                Text(
-                    text = drink.value.category,
-            )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    InfoCard(
+                        content = drink.value.category ?: ""
+                    )
+                    InfoCard(
+                        content = drink.value.alcoholic ?: ""
+                    )
+                    InfoCard(
+                        content = drink.value.glass ?: ""
+                    )
+                }
             }
             item {
-                Text(
-                    text = drink.value.alcoholic,
-                )
-            }
-            item {
-                Text(
-                    text = drink.value.glass,
-                )
-            }
-            item {
-                  ingredients.forEach { (ingredient, measure) ->
-                       Row(Modifier.wrapContentHeight()) {
-                           Text(text = ingredient ?: "", color = Color.Black)
-                           Spacer(Modifier.weight(weight = 1f))
-                           Text(text = measure ?: "", color = Color.Black)
-                   }
+                androidx.compose.material3.Card(
+                    colors = androidx.compose.material3.CardDefaults.cardColors(
+                        containerColor = Color(0xFFFAB36B)
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        ingredients.forEach { (ingredient, measure) ->
+                            Row(Modifier.wrapContentHeight()) {
+                                Text(text = ingredient ?: "", color = Color.Black)
+                                Spacer(Modifier.weight(weight = 1f))
+                                Text(text = measure ?: "", color = Color.Black)
+                            }
+                        }
+                    }
                }
             }
             item {
-
-                Text(
-                    text = drink.value.instruction   //-------------mettre d autre infos , voir fichier DrinkModel.kt
-                )
+                androidx.compose.material3.Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = androidx.compose.material3.CardDefaults.cardColors(
+                        containerColor = Color(0xFFFAB36B)
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = drink.value.instruction ?: "",
+                            fontSize = 16.sp,
+                            lineHeight = 22.sp,
+                            color = Color.Black
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable //boite des écritures
-fun InfoCard(title: String, content: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
+fun InfoCard(content: String) {
     androidx.compose.material3.Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.widthIn(max = 120.dp),
+        shape = RoundedCornerShape(50.dp), // plus ovale
         colors = androidx.compose.material3.CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.7f) //couleur boite
+            containerColor = Color(0xFFFFD75D)//couleur boite
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = Color(0xFF5D4037),
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(Modifier.width(8.dp))
-                Text(
-                    text = title,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = Color(0xFF5D4037)
-                )
-            }
-            Spacer(Modifier.padding(4.dp))
-            androidx.compose.material3.HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray)
-            Spacer(Modifier.padding(4.dp))
-            Text(
+        Text(
                 text = content,
                 fontSize = 16.sp,
                 lineHeight = 22.sp,
-                color = Color.Black
-            )
+                color = Color.Black,
+                textAlign = TextAlign.Center // centré le text
+        )
         }
     }
 }
