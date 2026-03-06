@@ -129,7 +129,8 @@ fun SearchScreen(modifier: Modifier){ //recherche boisson par nom
                                 color = Color(0xFF5D4037),
                                 fontSize = 24.sp,
                                 textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.ExtraBold
+                                fontWeight = FontWeight.ExtraBold,
+                                lineHeight = 26.sp
                             )
                         }
                     }

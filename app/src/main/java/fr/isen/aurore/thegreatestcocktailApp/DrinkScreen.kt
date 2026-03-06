@@ -149,7 +149,6 @@ fun DrinkScreen(modifier: Modifier, category: String) {
                         fontWeight = FontWeight.ExtraBold,
                         maxLines = 4,
                         overflow = TextOverflow.Ellipsis,
-                        lineHeight = 22.sp,
                         style = LocalTextStyle.current.copy( //pour que les noms ne soient pas coupé en 2
                             hyphens = Hyphens.None,
                             lineBreak = LineBreak.Paragraph

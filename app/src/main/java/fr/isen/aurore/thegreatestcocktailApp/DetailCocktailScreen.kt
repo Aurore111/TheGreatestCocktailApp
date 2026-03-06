@@ -154,8 +154,9 @@ fun DetailCocktailScreen(modifier: Modifier, snackbarHostState: SnackbarHostStat
         ) {
             item {
                 Text(
-                    text = drink.value.name,  //on appel info de drinksModel donc bien mettre 'name'-----------------------------
+                    text = drink.value.name,  //on appel info de drinksModel donc bien mettre 'name'
                     fontSize = 32.sp,
+                    lineHeight = 32.sp, //espace dans le titre quand le titre est sur plusieurs lignes
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF3E2723),
                     textAlign = TextAlign.Center

@@ -165,7 +165,8 @@ fun LikeScreen(modifier: Modifier)
                         color = Color(0xFF5D4037),
                         fontSize = 24.sp,
                         textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
+                        lineHeight = 26.sp //dans onglet like, nom boisson sur plusieur lignes ne ce chevauche pas
                     )
 
                 }
